@@ -1,0 +1,11 @@
+subprojects/unibilium
+build
+demo
+demo-async
+demo-glib
+termkey_getkey.3
+termkey_waitkey.3
+*.lo
+*.la
+.libs
+t/*.t

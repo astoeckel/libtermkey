@@ -37,6 +37,7 @@ gen_termkey_h = custom_target(
     install_dir: 'include',
 )
 
+inc_termkey = include_directories('.')
 lib_termkey = library(
     'termkey',
     [
@@ -46,6 +47,7 @@ lib_termkey = library(
         gen_termkey_h,
     ],
     install: true,
+    include_directories: [inc_termkey],
     dependencies: [dep_unibilium],
     c_args : ['-DHAVE_UNIBILIUM']
 )
@@ -58,8 +60,9 @@ exe_demo = executable(
     'demo',
     [
         'demo.c',
-        gen_termkey_h
+        gen_termkey_h,
     ],
+    include_directories: [inc_termkey],
     link_with: [lib_termkey]
 )
 
@@ -78,7 +81,8 @@ foreach test_name: arr_test_names
             't/taplib.c',
             gen_termkey_h,
         ],
-        link_with: [lib_termkey])
+        link_with: [lib_termkey],
+        include_directories: [inc_termkey])
     test(test_name, exe_test)
 endforeach
 
@@ -87,11 +91,10 @@ endforeach
 # Installation                                                                 #
 ################################################################################
 
-exe_perl = find_program('perl')
-
 # Meson dependency
 dep_termkey = declare_dependency(
     link_with: [lib_termkey],
+    include_directories: [inc_termkey],
 )
 
 # Generate a Pkg config file
